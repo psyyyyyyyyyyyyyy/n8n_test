@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import { trackPageView, trackButtonClick } from './lib/supabase'
 
 function App() {
   const [timeLeft, setTimeLeft] = useState({
@@ -12,6 +13,11 @@ function App() {
   const [isParticipated, setIsParticipated] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+
+  // 페이지 방문수 트래킹
+  useEffect(() => {
+    trackPageView()
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -48,6 +54,8 @@ function App() {
   }, [])
 
   const handleParticipate = () => {
+    // 버튼 클릭 트래킹
+    trackButtonClick('participate')
     setIsParticipated(true)
     setShowConfetti(true)
     setTimeout(() => setShowConfetti(false), 3000)
